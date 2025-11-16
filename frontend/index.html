@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LitoralMeet</title>
+    
+    <link rel="stylesheet" href="style.css">
+
+    <script src="js.js" defer></script>
+
+    </head>
+<body>
+    <header class="cabecalho">
+        <h1>Minha Logo</h1>
+        <nav>
+            <ul class="menu">
+                <li><a href="index.html">Início</a></li>
+                <li><a href="cadastro.html">Cadastro</a></li>
+                <li><a href="#">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div>
+        <h2>Cadastrar Novo Usuário</h2>
+        <form id="register-form">
+            <input type="text" id="register-nome" placeholder="Nome" required>
+            <input type="email" id="register-email" placeholder="Email" required>
+            <input type="password" id="register-senha" placeholder="Senha" required>
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Fazer Login</h2>
+        <form id="login-form">
+            <input type="email" id="login-email" placeholder="Email" required>
+            <input type="password" id="login-senha" placeholder="Senha" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <div id="profile-section">
+        <h2>Área VIP (Protegida)</h2>
+        <button id="profile-button">Buscar Meu Perfil</button>
+        <pre id="profile-result">Faça login e clique no botão.</pre>
+    </div>
+
+    <div style="grid-column: 1 / 3;">
+        <h2>Resposta do Servidor (Login/Cadastro)</h2>
+        <pre id="resultado">Esperando uma ação...</pre>
+    </div>
+
+    </body>
+</html>
