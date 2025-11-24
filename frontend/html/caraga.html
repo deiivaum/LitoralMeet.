@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caraguatatuba</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+      <a href="./index.html">
+        <button>inicio</button>
+    </a>
+   <div class="rating-detail-block">
+    <div class="explanation-content">
+        <h2>Avaliação e Detalhes do Evento</h2>
+        <p>Este é o texto explicativo sobre o evento ou o item que está sendo avaliado. Clique abaixo para ver todas as opiniões da comunidade.</p>
+        
+        <img src="../img/images.jpg" alt="Imagem explicativa" class="explanation-image">
+    </div>
+    
+    <div class="rating-summary-container">
+        <div class="community-average-rating">
+            <span class="average-text">Média da Comunidade:</span>
+            <div class="stars average-stars" id="average-star-rating">
+                <i class="far fa-star" data-avg-rating="1"></i>
+                <i class="far fa-star" data-avg-rating="2"></i>
+                <i class="far fa-star" data-avg-rating="3"></i>
+                <i class="far fa-star" data-avg-rating="4"></i>
+                <i class="far fa-star" data-avg-rating="5"></i>
+            </div>
+            <span id="average-value-display">(N/A)</span>
+        </div>
+        
+        <div class="user-rating-section">
+            <span class="user-rating-text">Sua Avaliação:</span>
+            <div class="stars user-stars" id="star-rating"> 
+                <i class="far fa-star" data-rating="1"></i>
+                <i class="far fa-star" data-rating="2"></i>
+                <i class="far fa-star" data-rating="3"></i>
+                <i class="far fa-star" data-rating="4"></i>
+                <i class="far fa-star" data-rating="5"></i>
+            </div>
+            <button id="submit-rating">Enviar Avaliação</button>
+        </div>
+
+        <button id="view-all-ratings-btn">Ver Mais Avaliações</button>
+    </div>
+    
+    <div id="ratings-expansion-area" class="hidden">
+        <h3>Todas as Avaliações</h3>
+        <ul id="all-ratings-list">
+            </ul>
+        <button id="close-ratings-btn">Fechar</button>
+    </div>
+</div>
+<script src="/frontend/js/style.js"></script>
+</body>
+</html>

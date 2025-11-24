@@ -16,11 +16,9 @@ if (!connectionString) {
 
 // 2b. Instancia o adaptador
 const adapter = new PrismaMariaDb(connectionString);
-
-// 2c. Instancia o Prisma Client, passando o adaptador
 const prisma = new PrismaClient({
     adapter: adapter,
-    // Opcional: log: ['query'],
+
 });
 
 class Usuario{
@@ -55,6 +53,53 @@ class Usuario{
     static async findAll(){
         return prisma.user.findMany();
     }
-}
+    
+    //editar o perfil e apagar
 
+    static async atualizar(id, dados){
+        const idNumero = parseInt(id);
+        return await prisma.user.update({
+            where: { id: parseInt(id) },
+            data: dados,
+        });
+    }
+
+    static async findById(id){
+        return await prisma.user.findUnique({
+            where: {id: id},
+        });
+    }
+    
+    static async apagar(id){
+        return await prisma.user.delete({
+            where: {id: parseInt(id)},
+        });
+    }
+
+
+    static async getRatingByUserId(userId){
+       return await prisma.Rating.findUnique({
+            where: {userId: userId},
+        });
+    }
+
+    static async createRating(userId, rating){
+        return await prisma.Rating.create({
+            data: {
+                userId: userId,
+                rating: rating,
+            }
+        });
+    }
+
+    static async attAvalia(userId, rating){
+        return await prisma.Rating.update({
+            where: { userId: userId},
+            data: { rating: rating },
+        });
+    }
+
+
+
+} 
 module.exports = Usuario;

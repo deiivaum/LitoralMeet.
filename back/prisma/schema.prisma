@@ -18,4 +18,17 @@ model User {
   nome String
   senha String
   cpf String @unique
+
+  ratings Rating[]
+}
+
+
+model Rating{
+  id Int @id @default(autoincrement())
+  rating Int @default(0)
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId])
 }

@@ -3,36 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LitoralMeet</title>
+    <title>LitoralMeet - Página Principal</title>
     
-    <link rel="stylesheet" href="../css/style.css">
-
-    <script src="../js/js.js" defer></script>
-
-    </head>
+    <link rel="stylesheet" href="..//css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+     <script src="../js/js.js"></script>
+</head>
 <body>
-    <header class="cabecalho">
-        <h1>Minha Logo</h1>
-        <nav>
-            <ul class="menu">
-                <li><a href="./index.html">Início</a></li>
-                <li><a href="./cadastro.html">Cadastro</a></li>
-                <li><a href="./login.html">Login</a></li>
-            </ul>
+
+    <header class="navbar">
+        <div class="logo">LITORAL MEET</div>
+        
+        <nav class="nav-links">
+            <a href="./caraga.html">Caraguatatuba</a>
+            <a href="#">São Sebastião</a>
+            <a href="#">Ilhabela</a>
+            <a href="#">Ubatuba</a>
         </nav>
+
+        <div class="profile-container">
+            
+            <div class="profile-dropdown logged-in-state">
+                <button class="profile-btn">
+                    <img src="https://via.placeholder.com/30" alt="Avatar">
+                </button>
+                
+                <div class="dropdown-content">
+                    <div class="user-info">
+                        <img src="https://via.placeholder.com/40" alt="Avatar">
+                        <span>Valentina Souza</span>
+                    </div>
+                    
+                    <a href="#"><i class="fas fa-edit"></i> Editar Perfil</a>
+                    <a href="#"><i class="fas fa-cog"></i> Configuração</a>
+                   <a href="#" onclick="handleLogoff()"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                </div>
+            </div>
+
+            <div class="logged-out-state">
+                <a href="./login.html" class="login-btn-main">Login</a>
+                <a href="./cadastro.html" class="login-btn-main">Cadastro</a>
+            </div>
+            
+        </div>
     </header>
 
+    <main class="main-content">
+        <div class="search-bar-container">
+            <input type="text" placeholder="Digite sua busca" class="search-input">
+        </div>
 
-    <div id="profile-section">
-        <h2>Área VIP (Protegida)</h2>
-        <button id="profile-button">Buscar Meu Perfil</button>
-        <pre id="profile-result">Faça login e clique no botão.</pre>
-    </div>
-
-    <div style="grid-column: 1 / 3;">
-        <h2>Resposta do Servidor (Login/Cadastro)</h2>
-        <pre id="resultado">Esperando uma ação...</pre>
-    </div>
-
-    </body>
+        <section class="highlights-section">
+            <div class="highlight-card">
+                <h2>Destaques ⭐</h2>
+                <div class="card-image-container">
+                    <img src="https://via.placeholder.com/600x400/3498db/ffffff?text=Temporada+de+Baleias" alt="Temporada de Avistamento das Baleias">
+                    <div class="card-info">
+                        <h3>TEMPORADA DE AVISTAMENTO DAS BALEIAS</h3>
+                        <button class="participar-btn">PARTICIPAR</button>
+                    </div>
+                </div>
+                <div class="countdown">
+                    <span>EVENTO COMEÇA EM:</span>
+                    <span class="timer">08:12:44:28</span>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script src="../js/style.js"></script>
+</body>
 </html>
