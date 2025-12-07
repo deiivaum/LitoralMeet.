@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Meu Perfil</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <nav>
+        <div>Galeria Litoral</div>
+        <a href="/index.html">Voltar para Home</a>
+    </nav>
+
+    <div class="container" style="max-width: 500px;">
+        <div class="card">
+            <h2>Editar Perfil</h2>
+            <form id="profile-form">
+                <div class="form-group">
+                    <label>Nome</label>
+                    <input type="text" name="nome">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label>Nova Senha (deixe em branco para manter)</label>
+                    <input type="password" name="senha">
+                </div>
+                <button type="submit">Atualizar Dados</button>
+            </form>
+
+            <hr style="margin: 2rem 0;">
+
+            <h3 style="color: var(--danger);">Zona de Perigo</h3>
+            <p>A exclusão da conta apagará seu acesso.</p>
+            <button id="btn-delete-account" class="danger">Excluir Minha Conta</button>
+        </div>
+    </div>
+
+    <script src="../js/script.js"></script>
+    <script>
+    // Script específico do perfil para carregar participações
+    document.addEventListener('DOMContentLoaded', async () => {
+        loadProfile(); // Sua função antiga de carregar dados do usuário
+        
+        // Nova lógica: carregar eventos inscritos
+        const container = document.getElementById('my-participations');
+        try {
+            const events = await apiFetch('/events/my-events');
+            
+            if(events.length === 0) {
+                container.innerHTML = '<p>Você ainda não participa de nenhum evento.</p>';
+                return;
+            }
+
+            container.innerHTML = events.map(event => `
+                <div class="card event-card">
+                    <h4>${event.title}</h4>
+                    <p>${event.city} - ${event.category}</p>
+                    <span style="color: green; font-weight: bold;">✓ Inscrito</span>
+                </div>
+            `).join('');
+        } catch (error) {
+            container.innerHTML = '<p>Erro ao carregar inscrições.</p>';
+        }
+    });
+</script>
+</body>
+</html>

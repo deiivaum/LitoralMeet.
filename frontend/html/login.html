@@ -1,29 +1,58 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
-    
+    <title>Login</title>
     <link rel="stylesheet" href="../css/style.css">
-
-    <script src="../js/js.js" defer></script>
-
-    </head>
+</head>
 <body>
-    <a href="./index.html">
-        <button>inicio</button>
-    </a>
-    
-      <div>
-        <h2>Fazer Login</h2>
-        <form id="login-form">
-            <input type="email" id="login-email" placeholder="Email" required>
-            <input type="password" id="login-senha" placeholder="Senha" required>
-            <button type="submit">Login</button>
-        </form>
+    <div class="container" style="max-width: 400px; margin-top: 100px;">
+        <div class="card">
+            <h2 style="text-align: center;">Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" name="senha" required>
+                </div>
+                <button type="submit" style="width: 100%;">Entrar</button>
+            </form>
+            <p style="text-align: center; margin-top: 15px;">
+                Não tem conta? <a href="/register.html">Cadastre-se</a>
+            </p>
+            <p style="text-align: center;">
+                <a href="/index.html">Voltar para Home</a>
+            </p>
+        </div>
     </div>
-    
-    </body>
-    <script src="../js/style.js"></script>
+
+    <script src="../js/script.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const senha = e.target.senha.value;
+
+    try {
+        const data = await apiFetch('/auth/login', {
+            method: 'POST',
+            body: JSON.stringify({ email, senha })
+        });
+        
+        Auth.setToken(data.token);
+        
+        // --- CORREÇÃO AQUI ---
+        // Em vez de ir para '/', vamos forçar ir para o index.html
+        window.location.href = '/index.html'; 
+        // ---------------------
+
+    } catch (error) {
+        alert('Erro: ' + error.message);
+    }
+});
+    </script>
+</body>
 </html>

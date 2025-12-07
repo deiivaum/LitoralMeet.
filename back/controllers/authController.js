@@ -8,11 +8,11 @@ const JWT_SECRET = 'chave-secretad';
 class AuthController {
 
     // Registra um novo usuário
-    static async register(req, res){
-        try{
-            const {nome, email, senha, cpf}  = req.body;
-            if (!nome || !email || !senha || !cpf){
-                return res.status(400).json({error: 'Todos os campos sao obrigatorios'});
+    static async register(req, res) {
+        try {
+            const { nome, email, senha, cpf } = req.body;
+            if (!nome || !email || !senha || !cpf) {
+                return res.status(400).json({ error: 'Todos os campos sao obrigatorios' });
             }
 
             const salt = bcrypt.genSaltSync(10);
@@ -26,16 +26,15 @@ class AuthController {
                 email: novoUsario.email,
                 cpf: novoUsario.cpf,
             });
-        } catch(error){
-            res.status(500).json({error: 'Erro ao registrar novo usuario'});
+        } catch (error) {
+            res.status(500).json({ error: 'Erro ao registrar novo usuario' });
         }
     }
 
-    // Realiza login e gera um token JWT
     static async login(req, res){
         try { 
             const {email, senha} = req.body;
-            const usario =  await User.findByEmail(email);
+            const usario = await User.findByEmail(email);
 
             if(!usario){
                 return res.status(401).json({error: 'Credenciais Invalidas'});
@@ -46,8 +45,17 @@ class AuthController {
                 return res.status(401).json({error: 'Credenciais invalidas'});
             }
             
+            // VOLTANDO PARA O DADO REAL DO BANCO
+            // Se o usuário não tiver role, assume que é 'user'
+            const cargoReal = usario.role || 'user';
+
             const token = jwt.sign(
-                { id: usario.id, email: usario.email, nome: usario.nome },
+                { 
+                    id: usario.id, 
+                    email: usario.email, 
+                    nome: usario.nome, 
+                    role: cargoReal // <--- AGORA É DINÂMICO DE NOVO!
+                },
                 JWT_SECRET,
                 {expiresIn: '1h'}
             );     
@@ -58,13 +66,15 @@ class AuthController {
             });
                 
         } catch(error){
+            console.log(error); // Mantivemos o log de erro para segurança
             res.status(500).json({error: 'Erro ao fazer login'});
         }
     }
 
+    
     // Atualiza dados do perfil do usuário
-    static async attPerfil(req, res){
-        const userId = parseInt(req.params.id); 
+    static async attPerfil(req, res) {
+        const userId = parseInt(req.params.id);
         const { nome, email, senha, cpf } = req.body;
 
         try {
@@ -80,33 +90,33 @@ class AuthController {
 
             if (senha) {
                 const salt = bcrypt.genSaltSync(10);
-                dadosToAtt.senha = bcrypt.hashSync(senha, salt); 
+                dadosToAtt.senha = bcrypt.hashSync(senha, salt);
             }
 
             if (Object.keys(dadosToAtt).length === 0) {
                 return res.status(400).json({ error: 'Nenhum dado válido para atualização fornecido.' });
             }
-            
+
             const usuarioAtualizado = await User.atualizar(userId, dadosToAtt);
-            
-            return res.status(200).json({ 
+
+            return res.status(200).json({
                 message: 'Perfil atualizado com sucesso!',
-                user: { 
+                user: {
                     id: usuarioAtualizado.id,
-                    email: usuarioAtualizado.email, 
+                    email: usuarioAtualizado.email,
                     nome: usuarioAtualizado.nome,
                     cpf: usuarioAtualizado.cpf
-                } 
+                }
             });
-            
-        } catch(error){
+
+        } catch (error) {
             return res.status(500).json({ error: 'Erro interno ao atualizar perfil.' });
         }
     }
 
     // Apaga o perfil do usuário
     static async apagarPerfil(req, res) {
-        const userId = parseInt(req.params.id); 
+        const userId = parseInt(req.params.id);
 
         try {
             const usuarioExistente = await User.findById(userId);
@@ -116,7 +126,7 @@ class AuthController {
             }
 
             await User.apagar(userId);
-            
+
             return res.status(200).json({ message: 'Perfil apagado com sucesso.' });
 
         } catch (error) {
@@ -126,21 +136,21 @@ class AuthController {
 
     // Cria ou atualiza a avaliação do usuário
     static async createRating(req, res) {
-        const userId = req.userId; 
-        const { rating } = req.body; 
+        const userId = req.userId;
+        const { rating } = req.body;
 
         if (!rating || rating < 1 || rating > 5) {
             return res.status(400).json({ error: 'Valor de avaliação inválido (deve ser entre 1 e 5).' });
         }
 
         try {
-            const existingRating = await User.getRatingByUserId(userId); 
-            
+            const existingRating = await User.getRatingByUserId(userId);
+
             if (existingRating) {
-                const updatedRating = await User.attAvalia(userId, rating); 
+                const updatedRating = await User.attAvalia(userId, rating);
                 return res.status(200).json({ message: 'Avaliação atualizada com sucesso.', rating: updatedRating });
             } else {
-                const newRating = await User.createRating(userId, rating); 
+                const newRating = await User.createRating(userId, rating);
                 return res.status(201).json({ message: 'Avaliação registrada com sucesso.', rating: newRating });
             }
         } catch (error) {

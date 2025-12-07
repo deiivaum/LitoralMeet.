@@ -18,17 +18,38 @@ model User {
   nome String
   senha String
   cpf String @unique
-
-  ratings Rating[]
+  role String @default("user")
+  events Event[]
+  Participation  Participation[]
 }
 
-
-model Rating{
-  id Int @id @default(autoincrement())
-  rating Int @default(0)
-  userId Int
-  user User @relation(fields: [userId], references: [id])
+model Event{
+  id        Int      @id @default(autoincrement())
+  title     String
+  image     String   // URL da imagem ou caminho do arquivo
+  category  String
+  rating    String   // Classificação (Livre, 10+, 18+, etc)
+  city      String
   createdAt DateTime @default(now())
+  
+  // Relacionamento: Todo evento pertence a um autor (User)
+  authorId  Int
+  author    User     @relation(fields: [authorId], references: [id])
 
-  @@unique([userId])
+  participants Participation[]
 }
+
+model Participation {
+  id       Int   @id @default(autoincrement())
+  userId   Int
+  eventId  Int
+  
+  user     User  @relation(fields: [userId], references: [id])
+  event    Event @relation(fields: [eventId], references: [id])
+
+  @@unique([userId, eventId])
+}
+
+
+
+

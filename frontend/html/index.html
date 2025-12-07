@@ -1,76 +1,95 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LitoralMeet - Página Principal</title>
-    
-    <link rel="stylesheet" href="..//css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-     <script src="../js/js.js"></script>
+    <title>Galeria de Eventos</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-
-    <header class="navbar">
-        <div class="logo">LITORAL MEET</div>
-        
-        <nav class="nav-links">
-            <a href="./caraga.html">Caraguatatuba</a>
-            <a href="#">São Sebastião</a>
-            <a href="#">Ilhabela</a>
-            <a href="#">Ubatuba</a>
-        </nav>
-
-        <div class="profile-container">
-            
-            <div class="profile-dropdown logged-in-state">
-                <button class="profile-btn">
-                    <img src="https://via.placeholder.com/30" alt="Avatar">
-                </button>
-                
-                <div class="dropdown-content">
-                    <div class="user-info">
-                        <img src="https://via.placeholder.com/40" alt="Avatar">
-                        <span>Valentina Souza</span>
-                    </div>
-                    
-                    <a href="#"><i class="fas fa-edit"></i> Editar Perfil</a>
-                    <a href="#"><i class="fas fa-cog"></i> Configuração</a>
-                   <a href="#" onclick="handleLogoff()"><i class="fas fa-sign-out-alt"></i> Sair</a>
-                </div>
-            </div>
-
-            <div class="logged-out-state">
-                <a href="./login.html" class="login-btn-main">Login</a>
-                <a href="./cadastro.html" class="login-btn-main">Cadastro</a>
-            </div>
-            
+    <nav>
+        <div><a href="/index.html">LitoralMeet</a></div>
+        <div id="auth-links">
+            <a href="/login.html">Login</a>
+            <a href="/register.html">Registrar</a>
         </div>
-    </header>
-
-    <main class="main-content">
-        <div class="search-bar-container">
-            <input type="text" placeholder="Digite sua busca" class="search-input">
+        <div id="user-links" class="hidden">
+            <span id="welcome-msg"></span>
+            <a href="/profile.html">Meu Perfil</a>
+            <a href="#" onclick="Auth.logout()">Sair</a>
         </div>
+    </nav>
 
-        <section class="highlights-section">
-            <div class="highlight-card">
-                <h2>Destaques ⭐</h2>
-                <div class="card-image-container">
-                    <img src="https://via.placeholder.com/600x400/3498db/ffffff?text=Temporada+de+Baleias" alt="Temporada de Avistamento das Baleias">
-                    <div class="card-info">
-                        <h3>TEMPORADA DE AVISTAMENTO DAS BALEIAS</h3>
-                        <button class="participar-btn">PARTICIPAR</button>
-                    </div>
-                </div>
-                <div class="countdown">
-                    <span>EVENTO COMEÇA EM:</span>
-                    <span class="timer">08:12:44:28</span>
-                </div>
+    <div class="container">
+        <section id="stats-content" class="stats-container">
+            </section>
+
+        <form id="event-form" class="card hidden">
+            <h2>Novo Evento</h2>
+            <div class="form-group">
+                <input type="text" name="title" placeholder="Título do Evento" required>
             </div>
-        </section>
-    </main>
-    
-    <script src="../js/style.js"></script>
+            <div class="form-group">
+                <input type="url" name="image" placeholder="URL da Imagem (http://...)" required>
+            </div>
+            <div class="form-group">
+                <select name="city" required>
+                    <option value="">Selecione a Cidade</option>
+                    <option value="Ubatuba">Ubatuba</option>
+                    <option value="Caraguatatuba">Caraguatatuba</option>
+                    <option value="São Sebastião">São Sebastião</option>
+                    <option value="Ilhabela">Ilhabela</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" name="category" placeholder="Categoria (ex: Show, Teatro)" required>
+            </div>
+            <button type="submit">Cadastrar Evento</button>
+        </form>
+
+        <hr>
+
+        <h2>Eventos Recentes</h2>
+        <div id="events-container" class="gallery-grid">
+            <p>Carregando...</p>
+        </div>
+    </div>
+
+    <div id="edit-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeEditModal()">&times;</span>
+        <h2>Editar Evento</h2>
+        <form id="edit-form">
+            <input type="hidden" name="id"> <div class="form-group">
+                <label>Título</label>
+                <input type="text" name="title" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Imagem URL</label>
+                <input type="url" name="image" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Cidade</label>
+                <select name="city" required>
+                    <option value="Ubatuba">Ubatuba</option>
+                    <option value="Caraguatatuba">Caraguatatuba</option>
+                    <option value="São Sebastião">São Sebastião</option>
+                    <option value="Ilhabela">Ilhabela</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Categoria</label>
+                <input type="text" name="category" required>
+            </div>
+
+            <button type="submit">Salvar Alterações</button>
+        </form>
+    </div>
+</div>
+
+    <script src="../js/script.js"></script>
 </body>
 </html>
