@@ -1,6 +1,4 @@
-// models/userModel.js
-const prisma = require('../prismaClient'); // Importa a conexão do Passo 1
-
+const prisma = require('../prismaClient'); 
 class Usuario {
     constructor(id, nome, email, senhaHash, cpf){
         this.id = id;
@@ -35,12 +33,25 @@ class Usuario {
         return await prisma.user.findUnique({ where: {id: parseInt(id)} });
     }
     
-    static async apagar(id){
-        return await prisma.user.delete({ where: {id: parseInt(id)} });
+    static async apagar(id) {
+        return await prisma.$transaction([
+            // Apaga as inscrições desse usuário
+            prisma.participation.deleteMany({
+                where: { userId: parseInt(id) }
+            }),
+
+            prisma.event.deleteMany({
+                where: { authorId: parseInt(id) }
+            }),
+
+            //apaga o usuário
+            prisma.user.delete({
+                where: { id: parseInt(id) }
+            })
+        ]);
     }
 
     static async getRatingByUserId(userId){
-       // O Prisma gera 'rating' (minúsculo) no javascript
        return await prisma.rating.findUnique({ where: {userId: parseInt(userId)} });
     }
 

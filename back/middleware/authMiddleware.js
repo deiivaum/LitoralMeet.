@@ -1,6 +1,6 @@
-// middleware/authMiddleware.js
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = 'chave-secretad'; // Use o mesmo JWT_SECRET do seu AuthController
+
+const JWT_SECRET = 'chave-secretad'; 
 
 const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -13,9 +13,9 @@ const authMiddleware = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
-        // Anexa o ID do usuário à requisição, tornando-o acessível no Controller
+        
         req.userId = decoded.id; 
-        next(); // 🟢 Permite que a requisição prossiga
+        next(); 
     } catch (ex) {
         return res.status(401).json({ error: 'Token inválido ou expirado.' });
     }

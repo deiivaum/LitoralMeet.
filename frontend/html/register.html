@@ -2,34 +2,36 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/login.css">
+    
 </head>
 <body>
-    <div class="container" style="max-width: 400px; margin-top: 50px;">
+    <div class="container">
         <div class="card">
-            <h2 style="text-align: center;">Criar Conta</h2>
+            <h2>Criar Conta</h2>
             <form id="register-form">
                 <div class="form-group">
-                    <label>Nome</label>
-                    <input type="text" name="nome" required>
+                    <label>Nome Completo</label>
+                    <input type="text" name="nome" placeholder="Ex: João Silva" required>
                 </div>
                 <div class="form-group">
                     <label>CPF</label>
-                    <input type="text" name="cpf" required>
+                    <input type="text" name="cpf" id="cpf" maxlength="14" placeholder="000.000.000-00" required>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" name="email" required>
+                    <input type="email" name="email" placeholder="seu@email.com" required>
                 </div>
                 <div class="form-group">
                     <label>Senha</label>
-                    <input type="password" name="senha" required>
+                    <input type="password" name="senha" placeholder="Crie uma senha forte" required>
                 </div>
-                <button type="submit" style="width: 100%;">Cadastrar</button>
+                <button type="submit">Cadastrar</button>
             </form>
-            <p style="text-align: center;">
-                <a href="/login.html">Já tenho conta</a>
+            <p>
+                Já tem uma conta? <a href="/login.html">Fazer Login</a>
             </p>
         </div>
     </div>
@@ -51,6 +53,19 @@
             } catch (error) {
                 alert('Erro: ' + error.message);
             }
+        });
+
+        // pontuacao do cpf
+        document.getElementById('cpf').addEventListener('input', function(e) {
+            let valor = e.target.value.replace(/\D/g, "");
+            if (valor.length > 9) {
+                valor = valor.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+            } else if (valor.length > 6) {
+                valor = valor.replace(/(\d{3})(\d{3})(\d{3})/, "$1.$2.$3");
+            } else if (valor.length > 3) {
+                valor = valor.replace(/(\d{3})(\d{3})/, "$1.$2");
+            }
+            e.target.value = valor;
         });
     </script>
 </body>

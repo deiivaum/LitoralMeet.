@@ -1,5 +1,6 @@
 const GalleryModel = require('../models/galleryModel');
-const User = require('../models/userModel'); // Importe seu model de Usuário existente
+const User = require('../models/userModel'); 
+const prisma = require('../prismaClient');
 
 class GalleryController {
 
@@ -13,7 +14,6 @@ class GalleryController {
         }
     }
 
-    // Dados do Dashboard
     static async dashboard(req, res) {
         try {
             const stats = await GalleryModel.getStats();
@@ -23,23 +23,16 @@ class GalleryController {
         }
     }
 
-    // --- PRIVADO (Requer Login) ---
-
-    // Criar Evento
     static async create(req, res) {
     console.log("--- TENTANDO CRIAR EVENTO ---");
 
     try {
-        // Pegamos apenas o que importa
         const { title, image, category, city } = req.body;
         const authorId = req.userId; 
-
-        // Validação básica
         if (!title || !city || !category) {
             return res.status(400).json({ error: 'Preencha título, cidade e categoria.' });
         }
 
-        // Criação limpa (sem passar rating)
         const newEvent = await GalleryModel.create({ 
             title, 
             image, 
@@ -52,8 +45,7 @@ class GalleryController {
         res.status(201).json(newEvent);
 
     } catch (error) {
-        // ESSA É A PARTE MAIS IMPORTANTE AGORA:
-        console.error("ERRO NO TERMINAL:", error); // <--- Isso vai mostrar o motivo real no VS Code
+        console.error("ERRO NO TERMINAL:", error);
         res.status(500).json({ error: 'Erro interno. Olhe o terminal do VS Code.' });
     }
 }
@@ -71,7 +63,7 @@ class GalleryController {
             // Busca dados completos do usuário para ver a role
             const user = await User.findById(userId);
 
-            // REGRA DE OURO: Só edita se for ADMIN ou DONO
+            // Só edita se for ADMIN ou DONO
             if (user.role !== 'admin' && event.authorId !== userId) {
                 return res.status(403).json({ error: 'Você não tem permissão para editar este evento.' });
             }
@@ -95,7 +87,7 @@ class GalleryController {
 
             const user = await User.findById(userId);
 
-            // REGRA DE OURO: Só deleta se for ADMIN ou DONO
+            //Só deleta se for ADMIN ou DONO
             if (user.role !== 'admin' && event.authorId !== userId) {
                 return res.status(403).json({ error: 'Você não tem permissão para excluir este evento.' });
             }
@@ -118,7 +110,6 @@ class GalleryController {
             });
             res.status(200).json({ message: 'Inscrição confirmada!' });
         } catch (error) {
-            // Se der erro P2002, é pq já participa
             if (error.code === 'P2002') {
                 return res.status(400).json({ error: 'Você já está participando deste evento.' });
             }
@@ -126,13 +117,13 @@ class GalleryController {
         }
     }
 
-    // Listar eventos que o usuário participa (Para o Perfil)
+    // Listar eventos que o usuário participa
     static async myParticipations(req, res) {
         const userId = req.userId;
         try {
             const participations = await prisma.participation.findMany({
                 where: { userId },
-                include: { event: true } // Traz os dados do evento junto
+                include: { event: true } 
             });
             
             // Limpa o retorno para enviar só a lista de eventos

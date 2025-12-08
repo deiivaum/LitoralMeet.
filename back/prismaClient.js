@@ -10,7 +10,7 @@ if (!connectionString) {
     throw new Error("A variável DATABASE_URL não está definida no arquivo .env.");
 }
 
-// Configura o adaptador uma única vez
+// Configura o adaptador
 const adapter = new PrismaMariaDb(connectionString);
 const prisma = new PrismaClient({
     adapter: adapter,

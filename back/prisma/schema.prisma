@@ -26,13 +26,12 @@ model User {
 model Event{
   id        Int      @id @default(autoincrement())
   title     String
-  image     String   // URL da imagem ou caminho do arquivo
+  image     String   
   category  String
-  rating    String   // Classificação (Livre, 10+, 18+, etc)
+  rating    String   
   city      String
   createdAt DateTime @default(now())
-  
-  // Relacionamento: Todo evento pertence a um autor (User)
+
   authorId  Int
   author    User     @relation(fields: [authorId], references: [id])
 

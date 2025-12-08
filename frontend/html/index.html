@@ -3,37 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galeria de Eventos</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>LitoralMeet - Eventos do Litoral Norte</title>
+    <link rel="stylesheet" href="../css/teste.css">
 </head>
 <body>
-    <nav>
-        <div><a href="/index.html">LitoralMeet</a></div>
-        <div id="auth-links">
-            <a href="/login.html">Login</a>
-            <a href="/register.html">Registrar</a>
-        </div>
-        <div id="user-links" class="hidden">
-            <span id="welcome-msg"></span>
-            <a href="/profile.html">Meu Perfil</a>
-            <a href="#" onclick="Auth.logout()">Sair</a>
-        </div>
-    </nav>
-
-    <div class="container">
-        <section id="stats-content" class="stats-container">
-            </section>
-
-        <form id="event-form" class="card hidden">
-            <h2>Novo Evento</h2>
-            <div class="form-group">
-                <input type="text" name="title" placeholder="Título do Evento" required>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo" onclick="window.location.href='./index.html'">
+                <span class="logo-text">LitoralMeet</span>
             </div>
-            <div class="form-group">
-                <input type="url" name="image" placeholder="URL da Imagem (http://...)" required>
+
+            <nav class="cities-nav">
+                <button class="city-btn active" data-city="Todas">Todas</button>
+                <button class="city-btn" data-city="Ubatuba">Ubatuba</button>
+                <button class="city-btn" data-city="São Sebastião">São Sebastião</button>
+                <button class="city-btn" data-city="Caraguatatuba">Caraguatatuba</button>
+                <button class="city-btn" data-city="Ilhabela">Ilhabela</button>
+            </nav>
+
+            <div class="profile-section">
+                <button class="profile-btn" id="profileBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </button>
+                
+                <div class="login-menu" id="loginMenu">
+                    <div id="auth-links">
+                        <a href="/login.html" class="login-menu-btn" style="text-decoration: none; display: block; text-align: center;">Login</a>
+                        <a href="/register.html" class="login-menu-btn" style="text-decoration: none; display: block; text-align: center;">Cadastro</a>
+                    </div>
+                    <div id="user-links" class="hidden">
+                        <span id="welcome-msg" style="display:block; padding: 5px; font-size: 0.8rem; color: #666; text-align: center;"></span>
+                        <a href="/profile.html" class="login-menu-btn" style="text-decoration: none; display: block; text-align: center;">Meu Perfil</a>
+                        <a href="#" onclick="Auth.logout()" class="login-menu-btn" style="text-decoration: none; display: block; text-align: center; color: var(--danger);">Sair</a>
+                    </div>
+                </div>
             </div>
+        </div>
+    </header>
+
+    <section class="carousel-section">
+        <div class="carousel-container">
+            <button class="carousel-btn prev" id="prevBtn">❮</button>
+            <div class="carousel-track" id="carouselTrack">
+                </div>
+            <button class="carousel-btn next" id="nextBtn">❯</button>
+            <div class="carousel-dots" id="carouselDots"></div>
+        </div>
+    </section>
+
+    <div class="events-container">
+        <div id="stats-content" class="stats-container hidden"></div>
+        <form id="event-form" class="card hidden" style="background: var(--branco); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+            <h2 style="color: var(--ciano-escuro); margin-bottom: 15px;">Novo Evento (Admin)</h2>
+            <div class="form-group"><input type="text" name="title" placeholder="Título" required style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 6px;"></div>
+            <div class="form-group"><input type="url" name="image" placeholder="Imagem URL" required style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 6px;"></div>
             <div class="form-group">
-                <select name="city" required>
+                <select name="city" required style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 6px;">
                     <option value="">Selecione a Cidade</option>
                     <option value="Ubatuba">Ubatuba</option>
                     <option value="Caraguatatuba">Caraguatatuba</option>
@@ -41,55 +69,47 @@
                     <option value="Ilhabela">Ilhabela</option>
                 </select>
             </div>
-            <div class="form-group">
-                <input type="text" name="category" placeholder="Categoria (ex: Show, Teatro)" required>
-            </div>
-            <button type="submit">Cadastrar Evento</button>
+            <div class="form-group"><input type="text" name="category" placeholder="Categoria" required style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 6px;"></div>
+            <button type="submit" style="background-color: var(--ciano-escuro); color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer;">Cadastrar Evento</button>
         </form>
+    </div>
 
-        <hr>
+    <section class="events-section">
+        <div class="events-container">
+            <h2 class="section-title" id="sectionTitle">Todos os Eventos</h2>
+            <div class="gallery-grid" id="events-container">
+                <p style="text-align: center; width: 100%;">Carregando eventos...</p>
+            </div>
+        </div>
+    </section>
 
-        <h2>Eventos Recentes</h2>
-        <div id="events-container" class="gallery-grid">
-            <p>Carregando...</p>
+    <footer class="footer">
+        <p>&copy; 2025 LitoralMeet - Seu portal de eventos do Litoral Norte</p>
+    </footer>
+
+    <div id="edit-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeEditModal()">&times;</span>
+            <h2 style="color: var(--ciano-escuro);">Editar Evento</h2>
+            <form id="edit-form">
+                <input type="hidden" name="id"> 
+                <div class="form-group"><label>Título</label><input type="text" name="title" required></div>
+                <div class="form-group"><label>Imagem</label><input type="url" name="image" required></div>
+                <div class="form-group"><label>Cidade</label>
+                    <select name="city" required>
+                        <option value="Ubatuba">Ubatuba</option>
+                        <option value="Caraguatatuba">Caraguatatuba</option>
+                        <option value="São Sebastião">São Sebastião</option>
+                        <option value="Ilhabela">Ilhabela</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Categoria</label><input type="text" name="category" required></div>
+                <button type="submit" style="width: 100%; margin-top: 10px;">Salvar</button>
+            </form>
         </div>
     </div>
 
-    <div id="edit-modal" class="modal hidden">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeEditModal()">&times;</span>
-        <h2>Editar Evento</h2>
-        <form id="edit-form">
-            <input type="hidden" name="id"> <div class="form-group">
-                <label>Título</label>
-                <input type="text" name="title" required>
-            </div>
-            
-            <div class="form-group">
-                <label>Imagem URL</label>
-                <input type="url" name="image" required>
-            </div>
-            
-            <div class="form-group">
-                <label>Cidade</label>
-                <select name="city" required>
-                    <option value="Ubatuba">Ubatuba</option>
-                    <option value="Caraguatatuba">Caraguatatuba</option>
-                    <option value="São Sebastião">São Sebastião</option>
-                    <option value="Ilhabela">Ilhabela</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label>Categoria</label>
-                <input type="text" name="category" required>
-            </div>
-
-            <button type="submit">Salvar Alterações</button>
-        </form>
-    </div>
-</div>
-
+    <script src="../js/teste.js"></script>
     <script src="../js/script.js"></script>
 </body>
-</html>
+</html> 

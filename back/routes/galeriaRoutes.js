@@ -7,9 +7,8 @@ const GalleryController = require('../controllers/galleryController');
 
 const authMiddleware = require('../middleware/authMiddleware');
 
-// ... resto do código igual ...
-router.get('/', GalleryController.getAll);
 router.get('/dashboard', GalleryController.dashboard);
+router.get('/', GalleryController.getAll);
 router.post('/', authMiddleware, GalleryController.create);
 router.put('/:id', authMiddleware, GalleryController.update);
 router.delete('/:id', authMiddleware, GalleryController.delete);

@@ -1,6 +1,3 @@
-// models/galleryModel.js
-
-// IMPORTA A CONEXÃO CENTRALIZADA (IGUAL FIZEMOS NO USERMODEL)
 const prisma = require('../prismaClient'); 
 
 class GalleryModel {
